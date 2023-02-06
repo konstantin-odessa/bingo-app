@@ -1,8 +1,6 @@
-import { TileMatrix, TTile, TTileContext, TUser } from '../types/types';
+import { TileMatrix, TTile, TTileContext } from '../types/types';
 import { StrategyHandler } from '../classes/strategy-handler.class';
 import { StrategyStateEnum } from '../enums/strategy-state.enum';
-import { users } from '../constants/users';
-import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 import {
   CENTRAL_TILE_POSITION,
   CENTRAL_TILE_TITLE,
@@ -92,51 +90,6 @@ const transformStrategies = (matrix: TileMatrix) => {
   return matrix.map((strategy) => {
     return new StrategyHandler(strategy.map((s) => s.id));
   });
-};
-
-export const getFulfilledStrategies = (
-  bingoStrategies: StrategyHandler[],
-  tileId: TTile['id'],
-) => {
-  const triggeredBingoStrategies = bingoStrategies.filter(
-    (s) => s.getState() === StrategyStateEnum.FULFILLED,
-  );
-
-  return triggeredBingoStrategies.filter((strategy) =>
-    strategy.getStrategy().includes(tileId),
-  );
-};
-
-export const getBingoUsers = (strategies: StrategyHandler[]) => {
-  return users.filter((user) =>
-    strategies.some((strategy) =>
-      strategy.getStrategy().every((entry) => user.selectedTilesIds.includes(entry)),
-    ),
-  );
-};
-
-export const checkIfTileSelected = (users: TUser[], tileId: TTile['id']) => {
-  return users.some((user) => user.selectedTilesIds.includes(tileId));
-};
-
-export const getTileState = (
-  bingoStrategies: StrategyHandler[],
-  users: TUser[],
-  tileId: TTile['id'],
-) => {
-  const fulfilledStrategies = getFulfilledStrategies(bingoStrategies, tileId);
-
-  if (!fulfilledStrategies.length) {
-    return checkIfTileSelected(users, tileId)
-      ? TileSelectionStateEnum.SELECTED
-      : TileSelectionStateEnum.NOT_SELECTED;
-  }
-
-  const bingoUsers = getBingoUsers(fulfilledStrategies);
-
-  return checkIfTileSelected(bingoUsers, tileId)
-    ? TileSelectionStateEnum.BINGO
-    : TileSelectionStateEnum.NOT_SELECTED;
 };
 
 export const toggleStrategies = (

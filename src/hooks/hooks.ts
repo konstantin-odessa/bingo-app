@@ -1,16 +1,17 @@
 import { TTile } from '../types/types';
 import { toggleStrategies } from '../helpers/helpers';
-import { users } from '../constants/users';
 import { useCallback, useEffect, useState } from 'react';
 import { StrategyStateEnum } from '../enums/strategy-state.enum';
 import { useBingoContext } from '../contexts/bingo-context';
+import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 
 export const useUpdateTile = () => {
   const context = useBingoContext();
 
   return useCallback(
     (tileId: TTile['id']) => {
-      const { setState, activeUserId, bingoStrategies, usedStrategiesMap } = context;
+      const { setContext, activeUserId, bingoStrategies, usedStrategiesMap, users } =
+        context;
 
       toggleStrategies(usedStrategiesMap, bingoStrategies, tileId);
 
@@ -39,7 +40,7 @@ export const useUpdateTile = () => {
         ]),
       );
 
-      setState({
+      setContext({
         ...context,
         fulfilledStrategiesMap,
         users: updatedUsers,
@@ -51,16 +52,16 @@ export const useUpdateTile = () => {
 
 export const useBingoModalDisplayState = (): [boolean, () => void] => {
   const context = useBingoContext();
-  const { fulfilledStrategiesMap, usedStrategiesMap, setState } = context;
+  const { fulfilledStrategiesMap, usedStrategiesMap, setContext } = context;
   const [modalDisplayState, setModalDisplayState] = useState(false);
 
   const closeModal = useCallback(() => {
     const updatedUsedStrategiesMap = new Map(fulfilledStrategiesMap.entries());
 
-    setState({ ...context, usedStrategiesMap: updatedUsedStrategiesMap });
+    setContext({ ...context, usedStrategiesMap: updatedUsedStrategiesMap });
 
     setModalDisplayState(false);
-  }, [context, fulfilledStrategiesMap, setState]);
+  }, [context, fulfilledStrategiesMap, setContext]);
 
   useEffect(() => {
     const usersSet = new Set();
@@ -80,4 +81,25 @@ export const useBingoModalDisplayState = (): [boolean, () => void] => {
   }, [fulfilledStrategiesMap, usedStrategiesMap]);
 
   return [modalDisplayState, closeModal];
+};
+
+export const useGetTileSelectionState = (tileId: TTile['id']) => {
+  const { users, fulfilledStrategiesMap } = useBingoContext();
+  const fulfilledStrategies = [...fulfilledStrategiesMap.keys()];
+
+  const bingoTilesIds = [
+    ...new Set(fulfilledStrategies.flatMap((strategy) => strategy.getStrategy())),
+  ];
+
+  if (bingoTilesIds.includes(tileId)) {
+    return TileSelectionStateEnum.BINGO;
+  }
+
+  const allSelectedTilesIds = [
+    ...new Set(users.flatMap((user) => user.selectedTilesIds)),
+  ];
+
+  return allSelectedTilesIds.includes(tileId)
+    ? TileSelectionStateEnum.SELECTED
+    : TileSelectionStateEnum.NOT_SELECTED;
 };

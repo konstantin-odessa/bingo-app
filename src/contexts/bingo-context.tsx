@@ -5,21 +5,19 @@ import React, {
   useContext,
   useState,
 } from 'react';
-import { users } from '../constants/users';
 import { TExtendedTileContext, TTileContext } from '../types/types';
-import { generateBingoStrategies, generateTiles } from '../helpers/helpers';
+import { generateBingoStrategies, generateTiles, noop } from '../helpers/helpers';
 
 const tiles = generateTiles();
 
 const BingoContext = createContext<TExtendedTileContext>({
   tiles,
   activeUserId: 0,
-  users,
+  users: [],
   bingoStrategies: generateBingoStrategies(tiles),
   fulfilledStrategiesMap: new Map(),
   usedStrategiesMap: new Map(),
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setState: () => {},
+  setContext: noop,
 });
 
 export const useBingoContext = () => {
@@ -32,7 +30,7 @@ export const BingoContextProvider: FC<PropsWithChildren> = ({ children }) => {
   });
 
   return (
-    <BingoContext.Provider value={{ ...state, setState }}>
+    <BingoContext.Provider value={{ ...state, setContext: setState }}>
       {children}
     </BingoContext.Provider>
   );

@@ -1,8 +1,8 @@
 import React, { FC, useMemo } from 'react';
 import { TileContainer, TileInnerContent, TileUsers } from './tile.style';
 import { useBingoContext } from '../../contexts/bingo-context';
-import { getTileState, noop } from '../../helpers/helpers';
-import { useUpdateTile } from '../../hooks/hooks';
+import { noop } from '../../helpers/helpers';
+import { useGetTileSelectionState, useUpdateTile } from '../../hooks/hooks';
 
 type TTileProps = {
   title: string;
@@ -11,12 +11,10 @@ type TTileProps = {
 };
 
 export const Tile: FC<TTileProps> = ({ title, id, canSelect }) => {
-  const { bingoStrategies, users } = useBingoContext();
+  const { users } = useBingoContext();
   const updateTile = useUpdateTile();
 
-  const selectionState = useMemo(() => {
-    return getTileState(bingoStrategies, users, id);
-  }, [bingoStrategies, id, users]);
+  const selectionState = useGetTileSelectionState(id);
 
   const names = useMemo(() => {
     return users

@@ -10,14 +10,11 @@ export type TTileContext = {
 };
 
 export type TExtendedTileContext = TTileContext & {
-  setState: (state: TTileContext) => void;
+  setContext: (context: TTileContext) => void;
 };
-
-export type TColor = string;
 
 export type TUser = {
   id: number;
-  color: TColor;
   name: string;
   selectedTilesIds: TTile['id'][];
 };
@@ -26,7 +23,6 @@ export type TTile = {
   id: number;
   title: string;
   canSelect?: boolean;
-  isBingo?: boolean;
 };
 
 export type TileMatrix = TTile[][];

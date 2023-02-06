@@ -6,6 +6,7 @@ export const TileContainer = styled.div`
   aspect-ratio: 1/1;
   cursor: pointer;
   padding: 0.4em;
+  border-radius: 0.2em;
 `;
 
 export const TileInnerContent = styled.div<{
@@ -42,6 +43,7 @@ export const TileInnerContent = styled.div<{
       text-decoration-line: ${lineDecoration};
       background-color: ${backgroundColor};
       line-height: 1.3em;
+      border-radius: 0.2em;
     `;
   }}
 `;
@@ -50,6 +52,6 @@ export const TileUsers = styled.div`
   position: absolute;
   color: white;
   top: 0;
-  left: 0.2em;
+  left: 0.4em;
   font-size: 0.6em;
 `;
