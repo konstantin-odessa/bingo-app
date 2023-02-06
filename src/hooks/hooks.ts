@@ -1,11 +1,13 @@
-import { TExtendedTileContext, TTile } from '../types/types';
+import { TTile } from '../types/types';
 import { toggleStrategies } from '../helpers/helpers';
 import { users } from '../constants/users';
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { StrategyStateEnum } from '../enums/strategy-state.enum';
 import { useBingoContext } from '../contexts/bingo-context';
 
-export const useUpdateTile = (context: TExtendedTileContext) => {
+export const useUpdateTile = () => {
+  const context = useBingoContext();
+
   return useCallback(
     (tileId: TTile['id']) => {
       const { setState, activeUserId, bingoStrategies, usedStrategiesMap } = context;
@@ -47,10 +49,7 @@ export const useUpdateTile = (context: TExtendedTileContext) => {
   );
 };
 
-export const useBingoModalDisplayState = (): [
-  boolean,
-  () => void,
-] => {
+export const useBingoModalDisplayState = (): [boolean, () => void] => {
   const context = useBingoContext();
   const { fulfilledStrategiesMap, usedStrategiesMap, setState } = context;
   const [modalDisplayState, setModalDisplayState] = useState(false);

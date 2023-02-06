@@ -33,6 +33,7 @@ export const TileInnerContent = styled.div<{
     }
 
     return css`
+      position: relative;
       display: flex;
       place-items: center;
       place-content: center;
@@ -40,6 +41,15 @@ export const TileInnerContent = styled.div<{
       width: 100%;
       text-decoration-line: ${lineDecoration};
       background-color: ${backgroundColor};
+      line-height: 1.3em;
     `;
   }}
+`;
+
+export const TileUsers = styled.div`
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0.2em;
+  font-size: 0.6em;
 `;
