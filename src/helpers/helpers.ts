@@ -1,27 +1,28 @@
-import { TileMatrix, TTile, TTileContext } from '../types/types';
-import { StrategyHandler } from '../classes/strategy-handler.class';
-import { StrategyStateEnum } from '../enums/strategy-state.enum';
+import { TileMatrix, TStrategy, TTile } from '../types/types';
 import {
   CENTRAL_TILE_POSITION,
   CENTRAL_TILE_TITLE,
   ROWS_COLUMNS_LENGTH,
   titles,
 } from '../constants/titles';
+import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 
-export const generateTiles = () => {
-  const data = titles
+export const generateTiles = (): TTile[] => {
+  const data: TTile[] = titles
     .slice(0)
     .sort(() => Math.random() - 0.5)
     .map((title, index) => ({
       title,
       id: index,
       canSelect: true,
+      state: TileSelectionStateEnum.NOT_SELECTED,
     }));
 
   const centralTile = {
     title: CENTRAL_TILE_TITLE,
     id: CENTRAL_TILE_POSITION,
     canSelect: false,
+    state: TileSelectionStateEnum.NOT_SELECTED,
   };
 
   return [
@@ -32,7 +33,10 @@ export const generateTiles = () => {
       .map(({ id, ...rest }) => ({ ...rest, id: id + 1 })),
   ];
 };
-export const generateBingoStrategies = (tiles: TTile[]) => {
+
+export const generateStrategies = (tiles: TTile[]) => {
+  let strategyType = 0;
+
   const rows: TileMatrix = [];
 
   for (let i = 0; i < tiles.length; i += ROWS_COLUMNS_LENGTH) {
@@ -79,34 +83,22 @@ export const generateBingoStrategies = (tiles: TTile[]) => {
     1,
   );
 
-  return [
-    ...transformStrategies(rows),
-    ...transformStrategies(columns),
-    ...transformStrategies(mainDiagonals),
-  ];
+  return new Map(
+    [rows, columns, mainDiagonals]
+      .flat()
+      .map((tiles) => transformToStrategy(strategyType++, tiles)),
+  );
 };
 
-const transformStrategies = (matrix: TileMatrix) => {
-  return matrix.map((strategy) => {
-    return new StrategyHandler(strategy.map((s) => s.id));
-  });
-};
-
-export const toggleStrategies = (
-  usedStrategiesMap: TTileContext['usedStrategiesMap'],
-  bingoStrategies: TTileContext['bingoStrategies'],
-  entry: TTile['id'],
-) => {
-  bingoStrategies.forEach((strategy) => {
-    strategy.toggleEntry(entry);
-
-    if (
-      usedStrategiesMap.has(strategy) &&
-      strategy.getState() !== StrategyStateEnum.FULFILLED
-    ) {
-      usedStrategiesMap.delete(strategy);
-    }
-  });
+const transformToStrategy = (
+  type: TStrategy['strategyType'],
+  tiles: TTile[],
+): [TStrategy['strategyType'], TTile['id'][]] => {
+  return [type, tiles.map((tile) => tile.id)];
 };
 
 export const noop = () => void 0;
+
+export const pxToEm = (px: number) => {
+  return px / 16 + 'em';
+};

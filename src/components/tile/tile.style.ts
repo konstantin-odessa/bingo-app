@@ -1,8 +1,9 @@
 import styled, { css } from 'styled-components';
 import { TileSelectionStateEnum } from '../../enums/tile-selection-state.enum';
+import { pxToEm } from '../../helpers/helpers';
 
 export const TileContainer = styled.div`
-  border: 1px dashed;
+  border: ${pxToEm(1)} dashed;
   aspect-ratio: 1/1;
   cursor: pointer;
   padding: 0.4em;
@@ -23,13 +24,13 @@ export const TileInnerContent = styled.div<{
         break;
       }
       case TileSelectionStateEnum.BINGO: {
-        backgroundColor = 'yellowgreen';
+        backgroundColor = '#c5ee72';
         lineDecoration = 'line-through';
         break;
       }
       case TileSelectionStateEnum.NOT_SELECTED:
       default:
-        backgroundColor = '#d1d1d129';
+        backgroundColor = 'rgba(209,209,209,0.27)';
         lineDecoration = 'revert';
     }
 
@@ -50,8 +51,8 @@ export const TileInnerContent = styled.div<{
 
 export const TileUsers = styled.div`
   position: absolute;
-  color: white;
+  color: #ff00c6;
   top: 0;
   left: 0.4em;
-  font-size: 0.6em;
+  font-size: 0.7em;
 `;

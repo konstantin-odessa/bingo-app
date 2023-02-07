@@ -1,10 +1,11 @@
 import React from 'react';
 import { TilesList } from '../tiles-list/tiles-list';
-import { BingoContextProvider } from '../../contexts/bingo-context';
 import { AppContainer } from './app.style';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UserRegistration } from '../users-registration/users-registration';
 import { ConferenceGuard } from '../conference-guard/conference-guard';
+import { UserManager } from '../user-manager/user-manager';
+import { BingoContextProvider } from '../../contexts/bingo.context';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               path='/conference'
               element={
                 <ConferenceGuard>
+                  <UserManager />
                   <TilesList />
                 </ConferenceGuard>
               }

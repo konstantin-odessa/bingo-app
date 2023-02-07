@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren, useEffect } from 'react';
-import { useBingoContext } from '../../contexts/bingo-context';
 import { useNavigate } from 'react-router-dom';
+import { useBingoContext } from '../../contexts/bingo.context';
 
 export const ConferenceGuard: FC<PropsWithChildren> = ({ children }) => {
   const { users } = useBingoContext();

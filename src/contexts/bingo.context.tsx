@@ -5,18 +5,18 @@ import React, {
   useContext,
   useState,
 } from 'react';
-import { TExtendedTileContext, TTileContext } from '../types/types';
-import { generateBingoStrategies, generateTiles, noop } from '../helpers/helpers';
+import { TExtendedBingoContext, TBingoContext } from '../types/types';
+import { generateStrategies, generateTiles, noop } from '../helpers/helpers';
 
 const tiles = generateTiles();
 
-const BingoContext = createContext<TExtendedTileContext>({
-  tiles,
+export const strategiesMap = generateStrategies(tiles);
+
+const BingoContext = createContext<TExtendedBingoContext>({
   activeUserId: 0,
   users: [],
-  bingoStrategies: generateBingoStrategies(tiles),
-  fulfilledStrategiesMap: new Map(),
-  usedStrategiesMap: new Map(),
+  strategies: [],
+  tiles,
   setContext: noop,
 });
 
@@ -25,9 +25,7 @@ export const useBingoContext = () => {
 };
 
 export const BingoContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState<TTileContext>({
-    ...useBingoContext(),
-  });
+  const [state, setState] = useState<TBingoContext>({ ...useBingoContext() });
 
   return (
     <BingoContext.Provider value={{ ...state, setContext: setState }}>

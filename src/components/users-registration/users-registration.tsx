@@ -1,16 +1,18 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
-import { TUser } from '../../types/types';
-import { useBingoContext } from '../../contexts/bingo-context';
+import { Field, Form, Formik } from 'formik';
 import { NameInputField, User, UsersList } from './users-registration.style';
 import { FieldProps } from 'formik/dist/Field';
+import { TUser } from '../../types/types';
+import { strategiesMap, useBingoContext } from '../../contexts/bingo.context';
+import { StrategyStateEnum } from '../../enums/strategy-state.enum';
 
 let userId = 0;
 
 export const UserRegistration = () => {
-  const { setContext, ...context } = useBingoContext();
-  const [users, setUsers] = useState<TUser[]>([]);
+  const context = useBingoContext();
+  const { setContext } = context;
+  const [users, setUsers] = useState<TUser['name'][]>([]);
   const buttonText = useMemo(() => {
     return users.length >= 3 ? 'Users Limit Reached' : 'Add User';
   }, [users.length]);
@@ -18,10 +20,27 @@ export const UserRegistration = () => {
   const navigate = useNavigate();
 
   const startConference = useCallback(() => {
+    const newUsers: TUser[] = users.map((name) => ({
+      id: userId++,
+      name,
+      selectedTilesIds: [],
+    }));
+
     setContext({
       ...context,
-      users,
-      activeUserId: users.at(0)?.id ?? 0,
+      users: newUsers,
+      strategies: newUsers.flatMap((user) => {
+        const types = [...strategiesMap.keys()];
+
+        return types.map((type) => ({
+          userId: user.id,
+          strategyType: type,
+          selectedTiles: [],
+          isClosed: false,
+          isFulfilled: false,
+          state: StrategyStateEnum.PENDING,
+        }));
+      }),
     });
 
     navigate('/conference');
@@ -31,22 +50,19 @@ export const UserRegistration = () => {
     <div>
       <h2>Users Registration</h2>
       <UsersList>
-        {users.map((user) => (
-          <User key={user.id}>{user.name}</User>
+        {users.map((user, index) => (
+          <User key={index}>{user}</User>
         ))}
       </UsersList>
       <Formik
         initialValues={{ name: '' }}
         onSubmit={(values, { resetForm, setErrors }) => {
-          if (users.some((user) => user.name === values.name)) {
+          if (users.some((user) => user === values.name)) {
             setErrors({ name: 'This name has already been taken.' });
             return;
           }
 
-          setUsers([
-            ...users,
-            { name: values.name, id: userId++, selectedTilesIds: [] },
-          ]);
+          setUsers([...users, values.name]);
           resetForm();
         }}
       >
