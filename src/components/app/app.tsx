@@ -5,12 +5,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UserRegistration } from '../users-registration/users-registration';
 import { ConferenceGuard } from '../conference-guard/conference-guard';
 import { UserManager } from '../user-manager/user-manager';
-import { BingoContextProvider } from '../../contexts/bingo.context';
+import { Provider } from 'react-redux';
+import { store } from '../../redux/store';
 
 function App() {
   return (
-    <AppContainer>
-      <BingoContextProvider>
+    <Provider store={store}>
+      <AppContainer>
+        {/*<BingoContextProvider>*/}
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<UserRegistration />} />
@@ -26,8 +28,9 @@ function App() {
           </Routes>
         </BrowserRouter>
         <div id='modal'></div>
-      </BingoContextProvider>
-    </AppContainer>
+        {/*</BingoContextProvider>*/}
+      </AppContainer>
+    </Provider>
   );
 }
 

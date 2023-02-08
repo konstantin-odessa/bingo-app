@@ -24,14 +24,3 @@ export type TStrategy = {
   isClosed: boolean;
   state: StrategyStateEnum;
 };
-
-export type TBingoContext = {
-  strategies: TStrategy[];
-  users: TUser[];
-  tiles: TTile[];
-  activeUserId: TUser['id'];
-};
-
-export type TExtendedBingoContext = TBingoContext & {
-  setContext: (context: TBingoContext) => void;
-};

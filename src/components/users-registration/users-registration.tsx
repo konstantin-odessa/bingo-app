@@ -4,14 +4,15 @@ import { Field, Form, Formik } from 'formik';
 import { NameInputField, User, UsersList } from './users-registration.style';
 import { FieldProps } from 'formik/dist/Field';
 import { TUser } from '../../types/types';
-import { strategiesMap, useBingoContext } from '../../contexts/bingo.context';
-import { StrategyStateEnum } from '../../enums/strategy-state.enum';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/store';
+import { setUsers as setUsersAction } from '../../redux/users.slice';
+import { setUserStrategies } from '../../redux/strategies.slice';
 
 let userId = 0;
 
 export const UserRegistration = () => {
-  const context = useBingoContext();
-  const { setContext } = context;
+  const dispatch = useDispatch<AppDispatch>();
   const [users, setUsers] = useState<TUser['name'][]>([]);
   const buttonText = useMemo(() => {
     return users.length >= 3 ? 'Users Limit Reached' : 'Add User';
@@ -26,25 +27,11 @@ export const UserRegistration = () => {
       selectedTilesIds: [],
     }));
 
-    setContext({
-      ...context,
-      users: newUsers,
-      strategies: newUsers.flatMap((user) => {
-        const types = [...strategiesMap.keys()];
-
-        return types.map((type) => ({
-          userId: user.id,
-          strategyType: type,
-          selectedTiles: [],
-          isClosed: false,
-          isFulfilled: false,
-          state: StrategyStateEnum.PENDING,
-        }));
-      }),
-    });
+    dispatch(setUsersAction(newUsers));
+    dispatch(setUserStrategies(newUsers));
 
     navigate('/conference');
-  }, [context, navigate, setContext, users]);
+  }, [dispatch, navigate, users]);
 
   return (
     <div>

@@ -8,21 +8,26 @@ import {
   DropdownBlock,
 } from './user-manager.style';
 import { TUser } from '../../types/types';
-import { useBingoContext } from '../../contexts/bingo.context';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setActiveUser } from '../../redux/users.slice';
 
 export const UserManager: FC = () => {
-  const context = useBingoContext();
-  const { activeUserId, users, setContext } = context;
+  const { activeUserId, users } = useSelector<RootState, RootState['usersReducer']>(
+    (state) => state.usersReducer,
+  );
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const handleUserSelect = useCallback(
     (userId: TUser['id']) => {
-      setContext({ ...context, activeUserId: userId });
+      dispatch(setActiveUser(userId));
       setIsDropdownOpen(false);
     },
-    [context, setContext],
+    [dispatch],
   );
 
   const activeUserName = useMemo(() => {

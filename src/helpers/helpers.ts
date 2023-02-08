@@ -1,13 +1,13 @@
 import { TileMatrix, TStrategy, TTile } from '../types/types';
+import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 import {
   CENTRAL_TILE_POSITION,
   CENTRAL_TILE_TITLE,
   ROWS_COLUMNS_LENGTH,
   titles,
 } from '../constants/titles';
-import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 
-export const generateTiles = (): TTile[] => {
+export const generateTiles = (titles: string[]): TTile[] => {
   const data: TTile[] = titles
     .slice(0)
     .sort(() => Math.random() - 0.5)
@@ -102,3 +102,7 @@ export const noop = () => void 0;
 export const pxToEm = (px: number) => {
   return px / 16 + 'em';
 };
+
+export const tiles = generateTiles(titles);
+
+export const strategiesMap = generateStrategies(tiles);
