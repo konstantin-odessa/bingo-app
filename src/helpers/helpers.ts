@@ -34,7 +34,9 @@ export const generateTiles = (titles: string[]): TTile[] => {
   ];
 };
 
-export const generateStrategies = (tiles: TTile[]) => {
+// Method represents calculation of "bingo tiles" - tiles
+// intersection of which will trigger victory (bingo) modal
+export const generateStrategiesMap = (tiles: TTile[]) => {
   let strategyType = 0;
 
   const rows: TileMatrix = [];
@@ -105,4 +107,4 @@ export const pxToEm = (px: number) => {
 
 export const tiles = generateTiles(titles);
 
-export const strategiesMap = generateStrategies(tiles);
+export const strategiesMap = generateStrategiesMap(tiles);

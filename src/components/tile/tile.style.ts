@@ -47,6 +47,7 @@ export const TileInnerContent = styled.div<{
       border-radius: 0.2em;
       padding: 0.2em;
       box-sizing: border-box;
+      font-size: 0.8em;
     `;
   }}
 `;
