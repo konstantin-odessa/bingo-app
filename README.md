@@ -9,7 +9,8 @@ In the "conference hall" users can win Bingo by selecting tiles and completing a
 Rules of game:
 - multiple users can simultaneously participate in one "conference call";
 - multiple users can "win Bingo" (select main rows, columns or diagonals);
-- central tile is unselectable by design; 
+- central tile is unselectable by design;
+- up to 3 users can be registered
 
 ## Getting Started
 
