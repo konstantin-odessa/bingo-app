@@ -4,7 +4,9 @@ import { TileListGrid } from './tile-list.style';
 import { VictoryModal } from '../victory-modal/victory-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { closeFulfilledStrategies } from '../../redux/strategies.slice';
+import {
+  closeFulfilledStrategies,
+} from '../../redux/strategies.slice';
 
 export const TilesList: FC = () => {
   const isBingo = useSelector<RootState, boolean>((state) =>

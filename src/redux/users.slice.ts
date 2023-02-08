@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { createSlice, PayloadAction, Slice } from '@reduxjs/toolkit';
 import { TTile, TUser } from '../types/types';
 
@@ -9,12 +10,18 @@ type TUserSlice = {
 export const usersSlice: Slice<TUserSlice> = createSlice({
   name: 'users',
   initialState: {
-    activeUserId: 0,
+    activeUserId: '',
     users: [],
   } as TUserSlice,
   reducers: {
-    setUsers(state, action: PayloadAction<TUser[]>) {
-      state.users = action.payload;
+    setUsers: {
+      reducer: (state, action: PayloadAction<TUser[]>) => {
+        state.users = action.payload;
+        state.activeUserId = state.users.at(0)?.id as TUser['id'];
+      },
+      prepare: (users: TUser[]) => {
+        return { payload: users.map((user) => ({ ...user, id: nanoid() })) };
+      },
     },
     updateUsers(
       state,

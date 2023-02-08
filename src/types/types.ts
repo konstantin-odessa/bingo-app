@@ -2,7 +2,7 @@ import { TileSelectionStateEnum } from '../enums/tile-selection-state.enum';
 import { StrategyStateEnum } from '../enums/strategy-state.enum';
 
 export type TUser = {
-  id: number;
+  id: string;
   name: string;
   selectedTilesIds: TTile['id'][];
 };

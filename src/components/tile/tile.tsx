@@ -5,7 +5,7 @@ import { TileSelectionStateEnum } from '../../enums/tile-selection-state.enum';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { updateStrategies } from '../../redux/strategies.slice';
-import { TUser } from '../../types/types';
+import { TTile } from '../../types/types';
 import { updateUsers } from '../../redux/users.slice';
 import { updateTiles } from '../../redux/tiles.slice';
 
@@ -28,7 +28,7 @@ export const Tile: FC<TTileProps> = ({ title, id, canSelect }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const updateTile = useCallback(
-    (tileId: TUser['id']) => {
+    (tileId: TTile['id']) => {
       dispatch(updateStrategies({ tileId, activeUserId }));
       dispatch(updateUsers({ tileId, activeUserId }));
     },

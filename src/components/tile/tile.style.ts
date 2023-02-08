@@ -45,6 +45,8 @@ export const TileInnerContent = styled.div<{
       background-color: ${backgroundColor};
       line-height: 1.3em;
       border-radius: 0.2em;
+      padding: 0.2em;
+      box-sizing: border-box;
     `;
   }}
 `;

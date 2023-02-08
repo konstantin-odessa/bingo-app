@@ -1,15 +1,13 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
 import { NameInputField, User, UsersList } from './users-registration.style';
 import { FieldProps } from 'formik/dist/Field';
 import { TUser } from '../../types/types';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 import { setUsers as setUsersAction } from '../../redux/users.slice';
 import { setUserStrategies } from '../../redux/strategies.slice';
-
-let userId = 0;
 
 export const UserRegistration = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,20 +16,30 @@ export const UserRegistration = () => {
     return users.length >= 3 ? 'Users Limit Reached' : 'Add User';
   }, [users.length]);
 
+  const { users: reduxUsers } = useSelector<RootState, RootState['usersReducer']>(
+    (state) => state.usersReducer,
+  );
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!reduxUsers.length) {
+      return;
+    }
+
+    dispatch(setUserStrategies(reduxUsers));
+
+    navigate('/conference');
+  }, [dispatch, navigate, reduxUsers]);
+
   const startConference = useCallback(() => {
-    const newUsers: TUser[] = users.map((name) => ({
-      id: userId++,
+    const newUsers: Omit<TUser, 'id'>[] = users.map((name) => ({
       name,
       selectedTilesIds: [],
     }));
 
     dispatch(setUsersAction(newUsers));
-    dispatch(setUserStrategies(newUsers));
-
-    navigate('/conference');
-  }, [dispatch, navigate, users]);
+  }, [dispatch, users]);
 
   return (
     <div>
