@@ -41,3 +41,8 @@ Follow these steps to get the development environment running:
     ```
 
 The application should now be running on `http://127.0.0.1:5173/` 
+
+## Technologies Used:
+- ReactJS library
+- Redux toolkit store for state management
+- Vite is used as a frontend tooling for module bundling and local server deployment
