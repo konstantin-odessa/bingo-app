@@ -12,7 +12,6 @@ function App() {
   return (
     <Provider store={store}>
       <AppContainer>
-        {/*<BingoContextProvider>*/}
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<UserRegistration />} />
@@ -28,7 +27,6 @@ function App() {
           </Routes>
         </BrowserRouter>
         <div id='modal'></div>
-        {/*</BingoContextProvider>*/}
       </AppContainer>
     </Provider>
   );

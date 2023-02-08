@@ -26,3 +26,7 @@ export const User = styled.li`
   text-align: left;
   padding-left: 2em;
 `;
+
+export const ErrorBlock = styled.div`
+  color: red;
+`;

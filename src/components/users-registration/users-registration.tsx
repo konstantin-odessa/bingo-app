@@ -1,19 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Field, Form, Formik } from 'formik';
-import { NameInputField, User, UsersList } from './users-registration.style';
+import {
+  ErrorBlock,
+  NameInputField,
+  User,
+  UsersList,
+} from './users-registration.style';
 import { FieldProps } from 'formik/dist/Field';
 import { TUser } from '../../types/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { setUsers as setUsersAction } from '../../redux/users.slice';
 import { setUserStrategies } from '../../redux/strategies.slice';
+import { MAX_USERS_LENGTH } from '../../constants/constants';
 
 export const UserRegistration = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [users, setUsers] = useState<TUser['name'][]>([]);
   const buttonText = useMemo(() => {
-    return users.length >= 3 ? 'Users Limit Reached' : 'Add User';
+    return users.length >= MAX_USERS_LENGTH ? 'Users Limit Reached' : 'Add User';
   }, [users.length]);
 
   const { users: reduxUsers } = useSelector<RootState, RootState['usersReducer']>(
@@ -63,7 +69,7 @@ export const UserRegistration = () => {
       >
         {({ values, errors }) => (
           <Form>
-            {users.length < 3 && (
+            {users.length < MAX_USERS_LENGTH && (
               <Field name='name' placeholder='Enter user name'>
                 {({ field }: FieldProps) => (
                   <NameInputField
@@ -77,9 +83,12 @@ export const UserRegistration = () => {
                 )}
               </Field>
             )}
-            {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+            {errors.name && <ErrorBlock>{errors.name}</ErrorBlock>}
             <br />
-            <button disabled={!values.name || users.length >= 3} type='submit'>
+            <button
+              disabled={!values.name || users.length >= MAX_USERS_LENGTH}
+              type='submit'
+            >
               {buttonText}
             </button>
           </Form>

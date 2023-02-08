@@ -30,3 +30,5 @@ export const CENTRAL_TILE_TITLE = 'CONF CALL BINGO';
 export const CENTRAL_TILE_POSITION = 12;
 
 export const ROWS_COLUMNS_LENGTH = 5;
+
+export const MAX_USERS_LENGTH = 3;

@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   UserBlock,
   DropdownBlock,
+  ActiveUserTitle,
 } from './user-manager.style';
 import { TUser } from '../../types/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,10 +38,7 @@ export const UserManager: FC = () => {
   return (
     <Container>
       <UserBlock>
-        Current active user:{' '}
-        <span style={{ color: '#d75f5f', fontWeight: 'bold' }}>
-          {activeUserName}
-        </span>
+        Current active user: <ActiveUserTitle>{activeUserName}</ActiveUserTitle>
       </UserBlock>
       <DropdownBlock>
         <DropdownButton onClick={toggleDropdown}>Choose User</DropdownButton>

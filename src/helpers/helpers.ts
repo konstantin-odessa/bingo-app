@@ -5,7 +5,7 @@ import {
   CENTRAL_TILE_TITLE,
   ROWS_COLUMNS_LENGTH,
   titles,
-} from '../constants/titles';
+} from '../constants/constants';
 
 export const generateTiles = (titles: string[]): TTile[] => {
   const data: TTile[] = titles

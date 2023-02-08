@@ -12,6 +12,11 @@ export const UserBlock = styled.div`
   font-weight: bold;
 `;
 
+export const ActiveUserTitle = styled.span`
+  color: #d75f5f;
+  font-weight: bold;
+`;
+
 export const DropdownBlock = styled.div`
   position: relative;
 `;
