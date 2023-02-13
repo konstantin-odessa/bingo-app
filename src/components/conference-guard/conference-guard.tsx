@@ -11,7 +11,7 @@ export const ConferenceGuard: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!users.length) {
-      navigate('/');
+      navigate('/bingo-app');
     }
   }, [navigate, users.length]);
 

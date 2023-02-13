@@ -35,7 +35,7 @@ export const UserRegistration = () => {
 
     dispatch(setUserStrategies(reduxUsers));
 
-    navigate('/conference');
+    navigate('conference');
   }, [dispatch, navigate, reduxUsers]);
 
   const startConference = useCallback(() => {

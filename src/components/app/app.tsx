@@ -14,9 +14,9 @@ function App() {
       <AppContainer>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<UserRegistration />} />
+            <Route path='/bingo-app' element={<UserRegistration />} />
             <Route
-              path='/conference'
+              path='/bingo-app/conference'
               element={
                 <ConferenceGuard>
                   <UserManager />
@@ -24,6 +24,7 @@ function App() {
                 </ConferenceGuard>
               }
             ></Route>
+            <Route path={'*'} element={<ConferenceGuard />}></Route>
           </Routes>
         </BrowserRouter>
         <div id='modal'></div>
