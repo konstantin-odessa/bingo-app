@@ -4,7 +4,9 @@ import { pxToEm } from '../../helpers/helpers';
 
 export const TileContainer = styled.div`
   border: ${pxToEm(1)} dashed;
-  aspect-ratio: 1/1;
+  //aspect-ratio: 1/1;
+  width: 6.5em;
+  height: 6.5em;
   cursor: pointer;
   padding: 0.4em;
   border-radius: 0.2em;

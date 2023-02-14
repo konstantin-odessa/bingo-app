@@ -14,6 +14,7 @@
   -webkit-text-size-adjust: 100%;
 
   background: radial-gradient(circle, #00b5e25e, #003054);
+  height: 100%;
 }
 
 a {
@@ -29,8 +30,7 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  height: 100%;
 }
 
 h1 {
@@ -48,7 +48,14 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: black;
 }
+
+button[disabled] {
+  color: rgba(16, 16, 16, 0.3);
+
+}
+
 button:hover {
   border-color: #646cff;
 }
@@ -73,6 +80,5 @@ button:focus-visible {
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }

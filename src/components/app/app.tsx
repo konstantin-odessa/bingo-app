@@ -7,6 +7,7 @@ import { ConferenceGuard } from '../conference-guard/conference-guard';
 import { UserManager } from '../user-manager/user-manager';
 import { Provider } from 'react-redux';
 import { store } from '../../redux/store';
+import { RedirectGuard } from '../redirect-guard/redirect-guard';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
                 </ConferenceGuard>
               }
             ></Route>
-            <Route path={'*'} element={<ConferenceGuard />}></Route>
+            <Route path={'*'} element={<RedirectGuard />}></Route>
           </Routes>
         </BrowserRouter>
         <div id='modal'></div>
